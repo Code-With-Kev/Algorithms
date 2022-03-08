@@ -1,23 +1,32 @@
-// power(2,0) // 1
-// power(2,2) // 4
-// power(2,4) // 16
+//-------------------------------------------------------------------QUESTION 1 ------------------------------------------------------------------------
+//PSEUDOCODE
+//pass a base and an exponent into a function
+//Base Case: if exponent is 1, return that number
+//Recursive Call: Multiply the base by the recursive function inputted with a decremented exponent
 
 function power(base, exponent){
     if (exponent === 1) {
         return base
     }
-   return base * power(base, exponent - 1)
+    return base * power(base, exponent - 1)
 }
+// power(2,0) // 1
+// power(2,2) // 4
+// power(2,4) // 16
 
 console.log(factorial(1)) // 1
 console.log(factorial(2)) // 2
 console.log(factorial(4)) // 24
 console.log(factorial(7)) // 5040
 
+
+//-------------------------------------------------------------------QUESTION 2 ------------------------------------------------------------------------
+
+//PSEUDOCODE
 //pass a number into factorial
 //we are gonna take that number and nultiply it by the decremented value of that number
-//return factorial
-//factorial of 0 is always 1
+//Base Case: factorial of 0/1 is always 1
+//Recursive Call: return the number multiplied by factorial inputted with decremented number
 
 function factorial(num){
     if (num === 1 || num === 0) {
@@ -26,6 +35,8 @@ function factorial(num){
     return num * factorial(num-1)
    
 }
+
+//-------------------------------------------------------------------QUESTION 3 ------------------------------------------------------------------------
 
 //Write a function called productOfArray which takes in an array of numbers and returns the product of them all
 
@@ -46,12 +57,15 @@ function productOfArray(array) {
 console.log(productOfArray([1,2,3])) // 6
 console.log(productOfArray([1,2,3,10])) // 60
 
+//-------------------------------------------------------------------QUESTION 4 ------------------------------------------------------------------------
+
+
 //Write a function called recursiveRange which accepts a number and adds up all the numbers from 0 to the number passed to the function
 
 //PSEUDOCODE
 //pass a number into the function
-//add that number by the decremented value of that number
-//base case: if num is 0; return 0
+//Base Case: if num is 1; return 1
+//Recursive Call: add that number by the function inputted with the decremented value of that number
 
 function recursiveRange(num){
     if (num === 1) {
@@ -64,6 +78,7 @@ function recursiveRange(num){
 console.log(recursiveRange(6)) // 21
 console.log(recursiveRange(10)) // 55
 
+//-------------------------------------------------------------------QUESTION 5 ------------------------------------------------------------------------
 
 // Write a recursive function called fib which accepts a number and returns the nth number in the Fibonacci sequence. Recall that the Fibonacci sequence is the sequence of whole numbers 1, 1, 2, 3, 5, 8,.... which starts with 1 and 1, and where every number thereafter is equal to the sum of the previous numbers
 
@@ -81,13 +96,15 @@ console.log(fib(10)) // 55
 console.log(fib(28)) // 317811
 console.log(fib(35)) // 9227465
 
+//-------------------------------------------------------------------QUESTION 6 ------------------------------------------------------------------------
+
 //Write a recursive function called reverse which accepts a string and returns a new string in reverse
 
 //PSEUDOCODE
 //pass a string into the function
 //create a container for the new string
 //add the last charater of the inputted string to the newStr container
-//return the new string
+//Recursive Call: return the function inputted with the string sliced plus the first value of the string
 
 function reverse(str){
     if(str.length <= 1) return str;
@@ -95,6 +112,8 @@ function reverse(str){
 }
 console.log(reverse('awesome')) // 'emosewa'
 console.log(reverse('rithmschool')) // 'loohcsmhtir'
+
+//-------------------------------------------------------------------QUESTION 7 ------------------------------------------------------------------------
 
 //Write a recursive function called isPalindrome which returns true if the string passed to it is a palindrome. Otherwise return false.
 
@@ -120,21 +139,69 @@ const isPalindrome = str =>{
     return false
 }
 
+//REFACTORED SOLUTION
+function isPalindrome(str){
+    if(str.length === 1) return true;
+    if(str.length === 2) return str[0] === str[1];
+    if(str[0] === str.slice(-1)) return isPalindrome(str.slice(1,-1))
+    return false;
+}
+
  console.log(isPalindrome('awesome')) // false
  console.log(isPalindrome('foobar')) // false
  console.log(isPalindrome('tacocat')) // true
  console.log(isPalindrome('amanaplanacanalpanama')) // true
  console.log(isPalindrome('amanaplanacanalpandemonium')) // false
 
+//-------------------------------------------------------------------QUESTION 8 ------------------------------------------------------------------------
+
+
 //Write a recursive function called someRecursive which accepts an array and a callback. The function returns true if a single value in the array returns true when passed to the callback. Otherwise return false
 
-function someRecursive(){
-     // add whatever parameters you deem necessary - good luck!
-    }
+//PSEUDOCODE
+// pass the first value from the array into the callback function
+// base: if callback returns a true value, then return true
+// else recursively bring back the callback and split the array
+// if there is no true value when the array length is 0, return false
+// add an edge case that if it returns undefined, also return false
 
-    // SAMPLE INPUT / OUTPUT
-   // const isOdd = val => val % 2 !== 0;
-   // someRecursive([1,2,3,4], isOdd) // true
-   // someRecursive([4,6,8,9], isOdd) // true
-   // someRecursive([4,6,8], isOdd) // false
-   // someRecursive([4,6,8], val => val > 10); // false
+
+const isOdd =  val => val % 2 !== 0;
+
+function someRecursive(array, callback){
+    callback(array[0]);
+    if(array.length === 0 || callback(array[0] === undefined)) {
+        return false
+    }
+    if(callback(array[0]) === true){
+        return true
+    }
+    return someRecursive(array.slice(1), callback)
+}
+
+//REFACTORED SOLUTION
+function someRecursive(array, callback) {
+    if (array.length === 0) return false;
+    if (callback(array[0])) return true;
+    return someRecursive(array.slice(1),callback);
+}
+
+
+// SAMPLE INPUT / OUTPUT
+const isOdd = val => val % 2 !== 0;
+console.log(someRecursive([1,2,3,4], isOdd)) // true
+console.log(someRecursive([4,6,8,9], isOdd)) // true
+console.log(someRecursive([4,6,8], isOdd)) // false
+console.log(someRecursive([4,6,8], val => val > 10)); // false
+
+//-------------------------------------------------------------------QUESTION 9 ------------------------------------------------------------------------
+
+//Write a recursive function called flatten which accepts an array of arrays and returns a new array with all values flattened
+function flatten(){
+    // add whatever parameters you deem necessary - good luck!
+  }
+  
+  // flatten([1, 2, 3, [4, 5] ]) // [1, 2, 3, 4, 5]
+  // flatten([1, [2, [3, 4], [[5]]]]) // [1, 2, 3, 4, 5]
+  // flatten([[1],[2],[3]]) // [1,2,3]
+  // flatten([[[[1], [[[2]]], [[[[[[[3]]]]]]]]]]) // [1,2,3
