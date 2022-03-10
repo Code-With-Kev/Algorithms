@@ -197,11 +197,26 @@ console.log(someRecursive([4,6,8], val => val > 10)); // false
 //-------------------------------------------------------------------QUESTION 9 ------------------------------------------------------------------------
 
 //Write a recursive function called flatten which accepts an array of arrays and returns a new array with all values flattened
-function flatten(){
-    // add whatever parameters you deem necessary - good luck!
-  }
-  
-  // flatten([1, 2, 3, [4, 5] ]) // [1, 2, 3, 4, 5]
-  // flatten([1, [2, [3, 4], [[5]]]]) // [1, 2, 3, 4, 5]
-  // flatten([[1],[2],[3]]) // [1,2,3]
-  // flatten([[[[1], [[[2]]], [[[[[[[3]]]]]]]]]]) // [1,2,3
+
+//PSEUDOCODE
+//Create a variable called newArr to hold the new array
+//Push the shifted value of the passed in array to the new array
+//if we land on a nested array, we push the first value of the nested array into the new array
+//Base Case: if array.length is 0 return the newArr
+//Recursive Call: 
+
+function flatten(oldArr){
+    var newArr = []
+        for(var i = 0; i < oldArr.length; i++){
+        if(Array.isArray(oldArr[i])){
+                newArr = newArr.concat(flatten(oldArr[i]))
+        } else {
+                newArr.push(oldArr[i])
+        }
+    } 
+    return newArr;
+}
+console.log( flatten([1, 2, 3, [4, 5] ])) // [1, 2, 3, 4, 5]
+console.log( flatten([1, [2, [3, 4], [[5]]]])) // [1, 2, 3, 4, 5]
+console.log( flatten([[1],[2],[3]])) // [1,2,3]
+console.log( flatten([[[[1], [[[2]]], [[[[[[[3]]]]]]]]]])) // [1,2,3
