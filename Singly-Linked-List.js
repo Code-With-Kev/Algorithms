@@ -1,4 +1,6 @@
 //BIG O of searching and accessing is O(N)
+// SLL excel at insertion and deletion over arrays (not including deleting from the end since arrays can just pop)
+// Arrays have built in indexes but SLL do not
 
 class Node{
     constructor(val){
