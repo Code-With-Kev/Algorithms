@@ -1,3 +1,5 @@
+//BIG O of searching and accessing is O(N)
+
 class Node{
     constructor(val){
         this.val = val;
@@ -149,7 +151,7 @@ class SinglyLinkedList{
             current.val = val
             return true
         }
-        // ------------------------------------------- INSERT METHOD ---------------------------------------------------------
+        // ------------------------------------------- INSERT METHOD -------------------------------------------------------
 
         //  INSERT PSUEDOCODE 
         //  create function that takes in a index and a value
@@ -160,25 +162,26 @@ class SinglyLinkedList{
         //  while counter doesnt equal index, traverse the list 
         //  set newNode's next to the indexed node
         //  set the preCurrent's next to the new node
-        insert(index, value){
-            let counter = 0
-            let newNode = new Node(value)
-            let current = this.head
-            let preCurrent = current
-            if(!this.head){
-                this.head = newNode
-                this.tail = this.head
-            }
-            while(counter !== index){
-                preCurrent = current
-                current = current.next
-                counter++
-            }
-            newNode.next = current;
-            preCurrent.next = newNode
-            this.length++
-            return true
-        }
+        // insert(index, value){
+        //     let counter = 0
+        //     let newNode = new Node(value)
+        //     let current = this.head
+        //     let preCurrent = current
+        //     if(!this.head){
+        //         this.head = newNode
+        //         this.tail = this.head
+        //     }
+        //     while(counter !== index){
+        //         preCurrent = current
+        //         current = current.next
+        //         counter++
+        //     }
+        //     newNode.next = current;
+        //     preCurrent.next = newNode
+        //     this.length++
+        //     return true
+        // }
+
         //REFACTORED INSERT PSUEDOCODE
         //  If the index is less than 0 or greater than the length, return false
         //  If the index is the same as the length, push a new node to the end of the list
@@ -187,19 +190,17 @@ class SinglyLinkedList{
         //  Set the next property on that node to be the new node
         //  Set the next property on the new node to be the previous next
         //  Increment length
+        // "!!" will convert push and unshift into booleans and make everything consistent
         //  Return true
 
+        //BIG O = O(1)
+
         insert2(index, val){
+            if(index < 0 || index > this.length) return false;
+            if(index === this.length) return !!this.push(val);
+            if(index === 0) return !!this.unshift(val)
+
             let insertedNode = new Node(val)
-            if(index < 0 || index > this.length){
-                return false
-            }
-            if(index === this.length){
-                this.push(insertedNode)
-            }
-            if(index === 0){
-                this.unshift(insertedNode)
-            }
             let preCurrent = this.get(index - 1)
             let current = this.get(index)
             preCurrent.next = insertedNode
@@ -207,13 +208,70 @@ class SinglyLinkedList{
             this.length++
             return true
         }
+        // ------------------------------------------- REMOVE METHOD ---------------------------------------------------
+        //PSEUDOCODE
+        //  if index is less than zero or greater than the length, return undefined
+        //  if the index is the same as the length-1, pop
+        //  if the index is 0, shift
+        //  otherwise, use get method to access node at index-1
+        //  set the next property on that node to be the next of the next node
+        //  decrement the length
+        //  return the value of removed node
 
+        //BIG O = O(1)/O(N) depending on where you remove
 
+        remove(index){
+            if(index < 0 || index > this.length) return false;
+            if(index === this.length - 1) return this.pop();
+            if(index === 0) return this.shift();
 
+            let previousNode = this.get(index - 1);
+            let removedNode = previousNode.next;
+            previousNode.next = removedNode.next
+            this.length--
+            return removedNode.val
+        }  
+
+        // ------------------------------------------- REVERSE METHOD ---------------------------------------------------
+        //PSEUDOCODE
+        // Swap the head and tail
+        // Create a prev and next variable
+        // Create a new node inputted with head property
+        // Loop through list
+        // Set next to be the next property on whatever node is
+        // Set the next property on the node to be whatever prev is
+        // Set prev to be the value of the node
+        // Set the node variable to be the value of the next variable
+        
+        reverse(){
+            let currentNode = new Node(this.head)
+            this.head = this.tail
+            this.tail = node
+
+            let next
+            let prev = null
+            for(let i=0; i<this.length; i++){
+                next = currentNode.next
+                currentNode.next = prev
+                prev = currentNode
+                currentNode = next
+            }
+            return this    
+        }
+        // ------------------------------------------- PRINT METHOD ---------------------------------------------------------
+        print(){
+        let arr = []
+        let current = this.head
+        while(current){
+            arr.push(current.val)
+            current = current.next
+        }
+        console.log(arr)
+        }
 
 }
 
-    // ------------------------------------------- tESTING ---------------------------------------------------------
+        // ------------------------------------------- TESTING ---------------------------------------------------------
 
 let list = new SinglyLinkedList()
 list.push("Hi")
@@ -239,6 +297,9 @@ list.push("Skyyy")
 // list.unshift("Brance")
 // console.log(list)
 
-console.log(list.insert2(-12, "bounce"))
-console.log(list)
+//list.insert2(0, "bounce")
+//list.insert2(3, "pounce")
 
+//console.log(list.remove(-0))
+//console.log(list.remove(-1))
+console.log(list.reverse())
