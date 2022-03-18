@@ -163,7 +163,11 @@ class SinglyLinkedList {
             return this
         }
         //REFACTORED INSERT PSUEDOCODE
-        
+        //  If the index is less than 0 or greater than the length, return false
+        //  If the index is the same as the length, push a new node to the end of the list
+        //  If the index is 0, unshift a new node to the start of the list
+        //  Otherwise, use the get method to access the node at the index - 1
+        //  
 
 
 
